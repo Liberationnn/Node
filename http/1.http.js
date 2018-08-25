@@ -9,7 +9,7 @@ let server = http.createServer((req, res) => {
     res.statusCode = 200; //设置状态码
     res.setHeader('Content-Type', 'text/html; charset=utf-8'); //设置响应类型，编码为utf-8
     res.setHeader('name', 'sr'); //设置响应头
-    res.write(new Date().toString()); //设置响应体
+    res.write(new Date().toString()); //设置响应主体
     res.end(); //关闭连接
 });
 
