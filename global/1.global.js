@@ -7,6 +7,7 @@
  __filename 当前模块的绝对路径
  */
 
+
 process.on('uncaughtException', (e) => {
     console.log('uncaughtException: ' + e.message);
 });
