@@ -1,4 +1,4 @@
-let http = require('http1');
+let http = require('http');
 let fs = require('fs');
 let MimeLookup = require('mime-lookup'),
     mime = new MimeLookup(require('mime-db'));

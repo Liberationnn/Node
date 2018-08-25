@@ -1,4 +1,4 @@
-let http = require('http1');
+let http = require('http');
 let fs = require('fs');
 
 // 每当有请求来的时候调用fn函数对客户端进行响应
