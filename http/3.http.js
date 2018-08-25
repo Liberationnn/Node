@@ -4,7 +4,6 @@ let url = require('url');
 let MimeLookup = require('mime-lookup'),
     mime = new MimeLookup(require('mime-db'));
 
-
 let server = http.createServer((req, res) => {
     let {pathname, query} = url.parse(req.url, true);
     pathname = pathname === '/' ? 'index.html' : pathname.slice(1);
