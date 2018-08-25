@@ -1,7 +1,8 @@
-let http = require('http');
+let http = require('http1');
 let fs = require('fs');
 let MimeLookup = require('mime-lookup'),
     mime = new MimeLookup(require('mime-db'));
+
 
 let server = http.createServer((req, res) => {
     let url = req.url === '/' ? 'index.html' : req.url.slice(1);
