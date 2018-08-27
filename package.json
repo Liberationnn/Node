@@ -6,7 +6,8 @@
   "dependencies": {
     "gulp": "^3.9.1",
     "mime-db": "^1.36.0",
-    "mime-lookup": "0.0.2"
+    "mime-lookup": "0.0.2",
+    "mysql": "^2.16.0"
   },
   "devDependencies": {},
   "scripts": {
