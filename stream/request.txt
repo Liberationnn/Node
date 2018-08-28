@@ -1,0 +1,7 @@
+HTTP/1.1 200 OK
+Date: Tue, 28 Aug 2018 08:33:49 GMT
+Content-Type: text/html; charset=utf-8
+Connection: keep-alive
+Content-Length: 3
+
+name=sr&age=22
