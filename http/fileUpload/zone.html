@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>上传文件</title>
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container" style="margin-top: 10px">
+    <form>
+      <div class="form-group">
+        <label for="fileUpload">请选择上传的文件</label>
+        <input type="file" id="fileUpload" name="fileUpload" onchange="fileSelect()">
+      </div>
+      <div class="form-group">
+        <input type="button" class="btn btn-default" value="上传" onclick="uploadFile()">
+      </div>
+      <div>
+        <table class="table table-striped">
+          <tr>
+            <th class="col-md-2">文件名</th>
+            <th class="col-md-2">文件大小</th>
+            <th class="col-md-2">文件类型</th>
+            <th class="col-md-2">当前速度</th>
+            <th class="col-md-2">剩余时间</th>
+            <th class="col-md-2">进度</th>
+          </tr>
+          <tr>
+            <td id="fileName"></td>
+            <td id="fileSize"></td>
+            <td id="fileType"></td>
+            <td id="speed"></td>
+            <td id="time"></td>
+            <td id="fileProgress">
+              <div class="progress" style="margin-bottom: 0;">
+                <div id="progressBar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                     aria-valuemax="100" style="min-width: 2em;">0%
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </form>
+  </div>
+
+  <script>
+      let trans = (size, type) => {
+          let temp = 0;
+          if (size > 1024 * 1024) {
+              temp = size / (1024 * 1024);
+              if (type === 'size') {
+                  return Math.floor(temp) + ' MB';
+              } else if (type === 'speed') {
+                  return Math.floor(temp * 10) + ' MB';
+              }
+          } else {
+              temp = size / 1024;
+              if (type === 'size') {
+                  return Math.floor(temp) + ' KB';
+              } else if (type === 'speed') {
+                  return Math.floor(temp * 10) + ' KB';
+              }
+          }
+      };
+
+      let fileSelect = () => {
+          let file = document.querySelector('#fileUpload').files[0];
+          if (file) {
+              document.querySelector('#fileName').innerHTML = file.name;
+              document.querySelector('#fileSize').innerHTML = trans(file.size, 'size');
+              document.querySelector('#fileType').innerHTML = file.type;
+          }
+      };
+
+      let progress = (e) => {
+          // 进度条
+          let percent = Math.floor(e.loaded * 100 / e.total); //上传进度
+          let progressBar = document.querySelector('#progressBar');
+          progressBar.setAttribute('aria-valuenow', percent.toString());
+          progressBar.innerHTML = progressBar.style.width = percent + '%';
+
+          // 下载速度
+          let diff = e.loaded - progressBar.last;
+          document.querySelector('#speed').innerHTML = trans(diff, 'speed') + '/S';
+          progressBar.last = e.loaded;
+
+          // 剩余时间
+          document.querySelector('#time').innerHTML = Math.ceil((e.total - e.loaded) / diff / 10) + '秒';
+      };
+      let success = () => {
+
+      };
+      let error = () => {
+
+      };
+      let abort = () => {
+
+      };
+
+      let uploadFile = () => {
+          let file = document.querySelector('#fileUpload').files[0],
+              zoneSize = 50 * 1024 * 1024,
+              zoneCount = Math.ceil(file.size / zoneSize);
+          // document.querySelector('#progressBar').last = 0;
+
+          for (let i = 0; i < zoneCount; i++) {
+              let start = i * zoneSize,
+                  end = Math.min(start + zoneSize, file.size),
+                  fd = new FormData(),
+                  type = file.name.split('.')[1];
+
+              fd.append('data', file.slice(start, end));
+              fd.append('fileName', 'fileUpload');
+              fd.append('type', type);
+              fd.append('total', zoneCount);
+              fd.append('size', zoneSize);
+              fd.append('index', i + 1);
+
+              let xhr = new XMLHttpRequest();
+              // xhr.upload.addEventListener('progress', progress); //监听上传过程
+              xhr.addEventListener('load', success); //上传成功
+              xhr.open('POST', '/fileUpload');
+              xhr.send(fd);
+          }
+      };
+  </script>
+</body>
+</html>
