@@ -14,6 +14,7 @@ let server = http.createServer((req, res) => {
     let {pathname} = urlObj;
 
     if (pathname === '/') {
+        // fs.createReadStream('./index.html').pipe(res);
         fs.createReadStream('./zone.html').pipe(res);
     } else if (pathname === '/fileUpload') {
         let parser = new formidable();

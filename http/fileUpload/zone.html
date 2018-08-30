@@ -88,21 +88,12 @@
           // 剩余时间
           document.querySelector('#time').innerHTML = Math.ceil((e.total - e.loaded) / diff / 10) + '秒';
       };
-      let success = () => {
-
-      };
-      let error = () => {
-
-      };
-      let abort = () => {
-
-      };
 
       let uploadFile = () => {
           let file = document.querySelector('#fileUpload').files[0],
               zoneSize = 50 * 1024 * 1024,
               zoneCount = Math.ceil(file.size / zoneSize);
-          // document.querySelector('#progressBar').last = 0;
+          document.querySelector('#progressBar').last = 0;
 
           for (let i = 0; i < zoneCount; i++) {
               let start = i * zoneSize,
@@ -119,7 +110,6 @@
 
               let xhr = new XMLHttpRequest();
               // xhr.upload.addEventListener('progress', progress); //监听上传过程
-              xhr.addEventListener('load', success); //上传成功
               xhr.open('POST', '/fileUpload');
               xhr.send(fd);
           }
