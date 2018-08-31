@@ -1,15 +1,11 @@
 let fs = require('fs'),
     http = require('http'),
-    MimeLookup = require('mime-lookup'),
-    mime = new MimeLookup(require('mime-db')),
-    util = require('util'),
     url = require('url'),
-    querystring = require('querystring'),
     formidable = require('formidable');
 
 let count = 0;
 
-let server = http.createServer((req, res) => {
+http.createServer((req, res) => {
     let urlObj = url.parse(req.url);
     let {pathname} = urlObj;
 
