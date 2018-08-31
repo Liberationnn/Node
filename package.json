@@ -4,6 +4,7 @@
   "description": "学习node时写的代码",
   "main": "index.js",
   "dependencies": {
+    "express": "^4.16.3",
     "formidable": "^1.2.1",
     "gulp": "^3.9.1",
     "mime-db": "^1.36.0",
