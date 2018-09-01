@@ -10,10 +10,12 @@
     "express-session": "^1.15.6",
     "formidable": "^1.2.1",
     "gulp": "^3.9.1",
+    "http-proxy": "^1.17.0",
     "mime-db": "^1.36.0",
     "mime-lookup": "0.0.2",
     "mkdirp": "^0.5.1",
-    "mysql": "^2.16.0"
+    "mysql": "^2.16.0",
+    "user-agent-parser": "^0.6.0"
   },
   "devDependencies": {},
   "scripts": {
