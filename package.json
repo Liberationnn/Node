@@ -15,7 +15,6 @@
     "mime-lookup": "0.0.2",
     "mkdirp": "^0.5.1",
     "mysql": "^2.16.0",
-
     "user-agent-parser": "^0.6.0"
   },
   "devDependencies": {},
