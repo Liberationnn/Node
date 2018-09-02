@@ -1,5 +1,4 @@
-let express = require('express'),
-    fs = require('fs'),
+let fs = require('fs'),
     http = require('http'),
     crypto = require('crypto');
 
