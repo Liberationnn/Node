@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>mvvm</title>
+  </head>
+
+  <body ng-app="myApp">
+    <div ng-controller="myCtrl">
+      姓名: {{name}}<br/>
+      年龄: {{age}}
+    </div>
+
+    <script src="../angular.js"></script>
+    <Script>
+      // 参数：模块的名字 依赖的模块
+      angular.module('myApp', [])
+        // 参数：控制器的名字  控制器的定义
+        .controller('myCtrl', function ($scope) {
+          $scope.name = 'sr';
+          $scope.age = 22;
+        });
+    </Script>
+  </body>
+</html>
