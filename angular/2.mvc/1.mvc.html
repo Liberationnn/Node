@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+  </head>
+  <body>
+
+    <div ng-controller="myCtrl1">
+      {{countService.count}}
+      <input type="button" value="+1" ng-click="add()">
+    </div>
+    <div ng-controller="myCtrl2">
+      {{countService.count}}
+      <input type="button" value="+1" ng-click="add()">
+    </div>
+
+    <script src="../angular.js"></script>
+    <Script>
+      angular.module('myApp', [])
+        .controller('myCtrl1', function ($scope, countService) {
+          $scope.countService = countService;
+          $scope.add = () => countService.add();
+        })
+        .controller('myCtrl2', function ($scope, countService) {
+          $scope.countService = countService;
+          $scope.add = () => countService.add();
+        })
+        .factory('countService', function () {
+          return {
+            count: 0,
+            add: function () {
+              this.count++;
+            }
+          }
+        })
+    </Script>
+  </body>
+</html>

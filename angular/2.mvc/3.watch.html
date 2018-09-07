@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body ng-app="myApp">
+
+    <div ng-controller="watchCtrl">
+      <p>{{age}}</p>
+      <input type="number" ng-model="age">
+    </div>
+
+    <script src="../angular.js"></script>
+    <script>
+      angular.module('myApp', [])
+        .controller('watchCtrl', function ($scope, $interval) {
+          $scope.age = 100;
+          console.log($scope);
+          $interval(function () {
+            $scope.age += 1;
+          }, 1000);
+        })
+        .directive('watchModel', function () {
+          return {
+            link: function ($scope, element, attrs) {
+              element.on('keyDown', function () {
+                // 强制观察者去比对模型是否改动
+                $scope.$apply(function () {
+                  $scope.age = element.val();
+                });
+              });
+              // 模型变化时执行回调,修改视图的值
+              $scope.$watch('age', function (newVal, oldVal) {
+                console.log(111111111);
+                element.val($scope.age);
+              });
+            }
+          }
+        });
+    </script>
+  </body>
+</html>
