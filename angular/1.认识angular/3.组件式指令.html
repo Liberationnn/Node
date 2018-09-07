@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+  </head>
+  <body ng-app="myApp">
+
+    <myform></myform>
+
+    <script src="../angular.js"></script>
+    <Script>
+      angular.module('myApp', [])
+        .directive('myform', function () {
+          return {
+            // 用这个DOM内容添加到原来指令DOM的内部
+            template: '<form>用户名: <input name="username"></form>'
+          };
+        });
+    </Script>
+  </body>
+</html>

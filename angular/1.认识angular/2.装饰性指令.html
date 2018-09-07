@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+  </head>
+
+  <body ng-app="myApp">
+    <div extra>hello</div>
+    <span greeting></span>
+
+    <script src="../angular.js"></script>
+    <Script>
+      angular.module('myApp', [])
+        .directive('extra', function () { //定义一个指令 参数: 指令名字, 指令的定义
+          return {
+            link: function ($scope, element) { //参数: 作用域, 当前元素本身
+              element
+                .css({color: 'red', border: '1px solid blue', marginBottom: '10px', userSelect: 'none'})
+                .on('click', () => console.log(element.html()));
+            }
+          };
+        })
+        .directive('greeting', function ($http) {
+          return {
+            link: function ($scope, element) {
+              $http({
+                url: 'greeting.json',
+                method: 'GET'
+              }).then((data) => element.html(data.data.word));
+            }
+          };
+        });
+    </Script>
+  </body>
+</html>

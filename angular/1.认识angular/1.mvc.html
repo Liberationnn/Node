@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>mvvm</title>
+    <title>MVVM</title>
   </head>
 
   <body ng-app="myApp">
@@ -13,10 +13,8 @@
 
     <script src="../angular.js"></script>
     <Script>
-      // 参数：模块的名字 依赖的模块
-      angular.module('myApp', [])
-        // 参数：控制器的名字  控制器的定义
-        .controller('myCtrl', function ($scope) {
+      angular.module('myApp', []) //参数：模块的名字, 依赖的模块
+        .controller('myCtrl', function ($scope) { //参数：控制器的名字, 控制器的定义
           $scope.name = 'sr';
           $scope.age = 22;
         });
