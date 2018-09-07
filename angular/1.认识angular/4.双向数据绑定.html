@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>MVVM</title>
+  </head>
+  <body ng-controller="myCtrl">
+
+    {{name}}<br/>
+    <input type="text" ng-model="name">
+    <input type="button" value="change" ng-click="change()">
+
+    <script src="../angular.js"></script>
+    <Script>
+      angular.module('myApp', [])
+        .controller('myCtrl', function ($scope) {
+          // $scope.change = function () {
+          //   $scope.name = 'sr';
+          // }
+          $scope.change = () => $scope.name = 'sr';
+        });
+    </Script>
+  </body>
+</html>
