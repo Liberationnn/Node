@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+  </head>
+  <body ng-controller="formCtrl">
+
+    <div class="container col-md-4 col-md-offset-4">
+      <form name="userForm" novalidate action="">
+        <div class="form-group"
+             ng-class="{'has-success':userForm.email.$dirty&&userForm.email.$valid, 'has-error':userForm.email.$dirty&&userForm.email.$invalid}">
+          <label for="email">邮箱</label>
+          <input form-errors class="form-control" id="email" name="email" type="email" ng-model="email"
+                 ng-required="true" ng-minlength="6">
+        </div>
+        <div class="form-group">
+          <input class="btn btn-primary" type="submit" value="提交">
+        </div>
+      </form>
+      <pre>
+        {{userForm | json}}
+      </pre>
+    </div>
+
+
+    <script src="../angular.js"></script>
+    <script>
+      angular.module('myApp', [])
+        .controller('formCtrl', function($scope) {
+        })
+        .directive('formErrors', function($compile) {
+          return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function(scope, element, attrs, ngModelCtrl) {
+              console.log(ngModelCtrl);
+              let subScope = scope.$new(true); //独立的scope
+              subScope.hasErrors = () => ngModelCtrl.$dirty && ngModelCtrl.$invalid;
+              subScope.errors = () => ngModelCtrl.$error;
+              let temp = '<p ng-show="hasErrors()" ng-repeat="(key,value) in errors()">{{key}}</p>';
+              let message = $compile(temp)(subScope);
+              console.log(message);
+              element.after(message);
+            }
+          };
+        });
+    </script>
+  </body>
+</html>
