@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+    <style>
+      body {
+        margin-top: 10px;
+        margin-left: 20px;
+      }
+      .title {
+        width: 130px;
+        height: 30px;
+        line-height: 30px;
+        border: 1px solid red;
+        user-select: none;
+        text-align: center;
+      }
+      .content {
+        width: 130px;
+        height: 90px;
+        line-height: 30px;
+        border: 1px solid green;
+        user-select: none;
+        text-align: center;
+      }
+      li {
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body ng-controller="myCtrl">
+
+    <openers>
+      <opener title="这是第一个标题"><div>这是第一个内容</div><div>这是第二个内容</div><div>这是第三个内容</div></opener>
+      <opener title="这是第二个标题"><div>这是第一个内容</div><div>这是第二个内容</div><div>这是第三个内容</div></opener>
+      <opener title="这是第三个标题"><div>这是第一个内容</div><div>这是第二个内容</div><div>这是第三个内容</div></opener>
+    </openers>
+
+    <script src="../angular.js"></script>
+    <script>
+      angular.module('myApp', [])
+        .controller('myCtrl', function($scope) {
+        })
+        .directive('opener', function() {
+          return {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+              title: '@'
+            },
+            templateUrl: 'exp.html',
+            require: '^openers', //不加前缀:找同级元素上的指令   加^前缀:找同级或上级元素是否是这个依赖的指令
+            link: function(scope, element, attrs, openersCtrl) {
+              scope.toggle = function() {
+                openersCtrl.toggle(scope);
+              };
+              openersCtrl.add(scope);
+            }
+          };
+        })
+        .directive('openers', function() {
+          return {
+            restrict: 'E',
+            controller: function($scope) {
+              let openerScopes = [];
+              this.add = function(openerScope) {
+                openerScopes.push(openerScope);
+              };
+              this.toggle = function(scope) {
+                  openerScopes.forEach(function(current) {
+                    current.open = scope === current ? !current.open : false;
+                  });
+              };
+            }
+          };
+        });
+    </script>
+  </body>
+</html>
