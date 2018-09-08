@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    <div class="container-fluid" ng-init="phones=[{name:'iphone'}, {name:'xiaomi'}]">
+      <div class="row-fluid">
+        Search: <input ng-model="query">
+        <ul class="phones">
+          <li ng-repeat="phone in phones | filter:query">
+            {{phone.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <script src="../angular.js"></script>
+    <script>
+      angular.module('myApp', [])
+        .controller('myCtrl', function ($scope) {
+
+        });
+    </script>
+  </body>
+</html>
