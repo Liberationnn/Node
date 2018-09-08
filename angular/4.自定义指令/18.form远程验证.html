@@ -12,7 +12,8 @@
         <div class="form-group"
              ng-class="{'has-success':userForm.username.$dirty && userForm.username.$valid, 'has-error':userForm.username.$dirty && userForm.username.$invalid}">
           <label for="username">用户名</label>
-          <input form-errors class="form-control" id="username" name="username" type="text" ng-model="username"
+          <input form-errors user-unique class="form-control" id="username" name="username" type="text"
+                 ng-model="username"
                  ng-required="true" ng-maxlength="12">
         </div>
         <div class="form-group"
@@ -22,7 +23,7 @@
                  ng-required="true" ng-minlength="6">
         </div>
         <div class="form-group">
-          <input class="btn btn-primary" type="submit" value="提交">
+          <input class="btn btn-primary" type="button" value="提交">
         </div>
       </form>
       <pre>
@@ -55,8 +56,36 @@
             let message = {
               required: '必填',
               email: '邮箱格式错误',
+              unique: '用户名已被占用'
             };
             return message[input];
+          };
+        })
+        .directive('userUnique', function($http, $timeout) {
+          // 1.监听数据变化
+          // 2.当数据变化时到后台校验
+          // 3.用返回值设置字段的有效性
+          return {
+            require: 'ngModel',
+            link: function(scope, element, attrs, ngModelCtrl) {
+              let t;
+              scope.$watch(attrs.ngModel, function(newVal) {
+                if (t) {
+                  $timeout.cancel(t);
+                }
+                t = $timeout(function() {
+                  $http({
+                    url: 'http://localhost:8080/checkUser',
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    data: {username: newVal}
+                  }).then(function(result) {
+                    let {data} = result; //{"unique": true}
+                    ngModelCtrl.$setValidity('unique', data.unique);
+                  });
+                }, 300);
+              });
+            }
           };
         });
     </script>
