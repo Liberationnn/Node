@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    <hello></hello>
+    <hello></hello>
+    <hello></hello>
+
+    <script src="../angular.js"></script>
+    <script>
+      angular.module('myApp', [])
+        .controller('myCtrl', function($scope) {})
+        .directive('hello', function() {
+          return {
+            replace: true,
+            template: '<input ng-model="name">'
+          };
+        });
+    </script>
+  </body>
+</html>

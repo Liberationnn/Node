@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    {{zhangsan}}<br/>
+    {{lisi}}
+    <!-- 将$scope上的zhangsan变量传给name属性 -->
+    <person name="zhangsan"></person>
+    <person name="lisi"></person>
+
+    <script src="../angular.js"></script>
+    <script>
+      angular.module('myApp', [])
+        .controller('myCtrl', function($scope) {
+          $scope.zhangsan = '张三';
+          $scope.lisi = '李四';
+          $scope.greet = function(name, word) {
+            console.log(name, word);
+          };
+        })
+        .directive('person', function() {
+          return {
+            replace: true,
+            scope: {
+              name: '=' //与父scope中的属性进行双向绑定
+            },
+            template: '<div>姓名: {{name}} <input type="text" ng-model="name"></div>'
+          };
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    <!-- 将$scope上的zhangsan变量传给name属性 -->
+    <person name={{zhangsan}}></person>
+    <person name={{lisi}}></person>
+
+    <script src="../angular.js"></script>
+    <script>
+      angular.module('myApp', [])
+        .controller('myCtrl', function($scope) {
+          $scope.zhangsan = '张三';
+          $scope.lisi = '李四';
+          $scope.greet = function(name, word) {
+            console.log(name, word);
+          };
+        })
+        .directive('person', function() {
+          return {
+            replace: true,
+            scope: {
+              name: '@' //将指令上的name属性按值传递给独立scope
+            },
+            template: '<div>姓名: {{name}}</div>'
+          };
+        });
+    </script>
+  </body>
+</html>
