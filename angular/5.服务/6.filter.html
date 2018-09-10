@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    {{88.88888 | number:1}}<br/>
+    {{88.88888 | currency:'￥'}}<br/>
+    {{number}}<br/>
+    {{100 | add:10:5:3}}
+
+    <script src="../angular.js"></script>
+    <script>
+      angular.module('myApp', [])
+        .controller('myCtrl', function($scope, numberFilter) {
+          $scope.number = numberFilter(88.2888, 1);
+        })
+        .filter('add', function() {
+          return function(input) {
+            let args = [...arguments].slice(1);
+            return args.reduce((total, num) => total + num, input);
+          };
+        });
+    </script>
+  </body>
+</html>

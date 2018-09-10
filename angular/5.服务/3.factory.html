@@ -24,13 +24,13 @@
     <script src="../angular.js"></script>
     <script>
       angular.module('myApp', [])
-        .controller('myCtrl', function($scope, calculatorProvider) {
+        .controller('myCtrl', function($scope, calculator) {
           $scope.operator = '+';
           $scope.calculate = function() {
-            $scope.result = calculatorProvider($scope.a, $scope.operator, $scope.b);
+            $scope.result = calculator($scope.a, $scope.operator, $scope.b);
           };
         })
-        .factory('calculatorProvider', function() {
+        .factory('calculator', function() {
           return function(a, operator, b) {
             return eval(a + operator + b);
           };

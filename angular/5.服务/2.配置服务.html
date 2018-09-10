@@ -24,13 +24,13 @@
     <script src="../angular.js"></script>
     <script>
       angular.module('myApp', [])
-        .controller('myCtrl', function($scope, calculatorProvider) {
+        .controller('myCtrl', function($scope, calculator) {
           $scope.operator = '+';
           $scope.calculate = function() {
-            $scope.result = calculatorProvider($scope.a, $scope.operator, $scope.b);
+            $scope.result = calculator($scope.a, $scope.operator, $scope.b);
           };
         })
-        .provider('calculatorProvider', function() {
+        .provider('calculator', function() {
           let currency = '$';
           this.setCurrency = (newCurrency) => currency = newCurrency;
           this.$get = function() {
@@ -39,8 +39,8 @@
             };
           };
         })
-        .config(function(calculatorProviderProvider) {
-          calculatorProviderProvider.setCurrency('￥');
+        .config(function(calculatorProvider) {
+          calculatorProvider.setCurrency('￥');
         });
     </script>
   </body>
