@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    <a class="btn btn-default" href="#!/">root</a>
+    <a class="btn btn-default" href="#!/index">index</a>
+    <a class="btn btn-default" href="#!/user">user</a>
+    <div ng-view></div>
+
+    <script src="../angular.js"></script>
+    <script src="../angular-route.js"></script>
+    <script>
+      angular.module('myApp', ['ngRoute'])
+        .controller('myCtrl', function($scope) {
+        })
+        .config(function($routeProvider) {
+          $routeProvider
+            .when('/', {templateUrl: './root.html'})
+            .when('/index', {templateUrl: './index.html'})
+            .when('/user', {templateUrl: './user.html'})
+            .otherwise({redirectTo: '/'});
+        })
+    </script>
+  </body>
+</html>
