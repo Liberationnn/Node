@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    <ul>
+      <li ng-repeat="book in books">{{book.name}}</li>
+    </ul>
+
+    <script src="../angular.js"></script>
+    <script>
+      angular.module('myApp', [])
+        .controller('myCtrl', function($scope, $http) {
+          $http.get('books.json')
+            .then(function(result) {
+              $scope.books = result;
+            }, function() {
+              console.log(arguments);
+            });
+        })
+        .factory('bookInterceptor', function($log, $q, $timeout) {
+          return {
+            request: function(config) {
+              $log.log('request');
+              let defer = $q.defer();
+              $timeout(() => {
+                config.url = 'student.json'; //拦截请求，将请求路径改为student.json
+                defer.resolve(config);
+              }, 2000);
+              return defer.promise;
+            },
+            response: function(response) {
+              $log.log('response');
+              return response.data; //拦截响应，将响应改为data
+            },
+            requestError: function() {
+              $log.log('requestError');
+            },
+            responseError: function(rejection) {
+              $log.log('responseError');
+              switch (rejection.status) {
+                case 401:
+                  break;
+                case 403:
+                  break;
+                case 404:
+                  console.log('页面不存在');
+                  break;
+                case 500:
+                  break;
+              }
+              return rejection;
+            }
+          };
+        })
+        .config(function($httpProvider) {
+          $httpProvider.interceptors.push('bookInterceptor');
+        })
+    </script>
+  </body>
+</html>

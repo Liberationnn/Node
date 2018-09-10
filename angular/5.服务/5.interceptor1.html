@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    <ul>
+      <li ng-repeat="book in books">{{book.name}}</li>
+    </ul>
+
+    <script src="../angular.js"></script>
+    <script>
+      angular.module('myApp', [])
+        .controller('myCtrl', function($scope, $http) {
+          $http.get('books.json')
+            .then(function(result) {
+              $scope.books = result.data;
+            }, function() {
+              console.log(arguments);
+            });
+        })
+        .factory('bookInterceptor', function($log) {
+          return {
+            request: function(config) {
+              $log.log('request');
+              return config;
+            },
+            response: function(response) {
+              $log.log('response');
+              return response;
+            },
+            requestError: function() {
+              $log.log('requestError');
+            },
+            responseError: function() {
+              $log.log('responseError');
+            }
+          };
+        })
+        .config(function($httpProvider) {
+          $httpProvider.interceptors.push('bookInterceptor');
+        })
+    </script>
+  </body>
+</html>

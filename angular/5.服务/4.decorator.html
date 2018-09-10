@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    <button class="btn btn-default" ng-click="log()">click me</button>
+
+    <script src="../angular.js"></script>
+    <script>
+      angular.module('myApp', [])
+        .controller('myCtrl', function($scope, $log) {
+          $scope.log = () => $log.log('hello');
+        })
+        .config(function($provide) {
+          $provide.decorator('$log', function($delegate) {
+            let tempLog = $delegate.log;
+            $delegate.log = function() {
+              let args = Array.prototype.slice.call(arguments);
+              args.unshift(new Date());
+              tempLog.apply(null, args);
+            };
+            return $delegate;
+          })
+        })
+    </script>
+  </body>
+</html>

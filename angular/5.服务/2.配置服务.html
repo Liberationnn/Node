@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    <div class="container">
+      <input type="number" ng-model="a">
+      <select name="" id="" ng-model="operator">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">×</option>
+        <option value="/">÷</option>
+      </select>
+      <input type="number" ng-model="b">
+      <span> = </span>
+      <input type="text" disabled ng-model="result">
+      <input type="button" ng-click="calculate()" value="计算">
+    </div>
+
+    <script src="../angular.js"></script>
+    <script>
+      angular.module('myApp', [])
+        .controller('myCtrl', function($scope, calculatorProvider) {
+          $scope.operator = '+';
+          $scope.calculate = function() {
+            $scope.result = calculatorProvider($scope.a, $scope.operator, $scope.b);
+          };
+        })
+        .provider('calculatorProvider', function() {
+          let currency = '$';
+          this.setCurrency = (newCurrency) => currency = newCurrency;
+          this.$get = function() {
+            return function(a, operator, b) {
+              return currency + eval(a + operator + b);
+            };
+          };
+        })
+        .config(function(calculatorProviderProvider) {
+          calculatorProviderProvider.setCurrency('￥');
+        });
+    </script>
+  </body>
+</html>
