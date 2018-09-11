@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+    
+    <button class="btn btn-default" ui-sref="root">root</button>
+    <button class="btn btn-default" ui-sref="book">show books</button>
+    <div ui-view></div>
+    
+    <script src="../../angular.js"></script>
+    <script src="../../angular-ui-router.js"></script>
+
+    <script>
+      angular.module('myApp', ['ui.router'])
+        .controller('myCtrl', function ($scope) {})
+        .config(function($stateProvider) {
+          $stateProvider.state('root', {url: '/root', template: 'root template'});
+          $stateProvider.state('book', {
+            url: '/book',
+            template: '{{user}}<ul><li ng-repeat="book in books">{{book.name}}</li></ul>',
+            controller: function($scope, $http) {
+              $http.get('http://localhost:8080/books.json')
+                .then((result) => $scope.books = result.data);
+            }
+          })
+        })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+
+    <a class="btn btn-default" ui-sref="root">root</a>
+    <a class="btn btn-default" ui-sref="index">index</a>
+    <a class="btn btn-default" ui-sref="user">user</a>
+
+    <div ui-view></div>
+
+    <button class="btn btn-default" ng-click="goRoot('root')">切换到根路由</button>
+    <button class="btn btn-default" ng-click="goRoot('index')">切换到首页路由</button>
+    <button class="btn btn-default" ng-click="goRoot('user')">切换到用户路由</button>
+
+    <script src="../../angular.js"></script>
+    <script src="../../angular-ui-router.js"></script>
+    <script>
+      angular.module('myApp', ['ui.router'])
+        .controller('myCtrl', function($scope, $state) {
+          $scope.goRoot = (url) => $state.go(url);
+        })
+        .config(function($stateProvider, $urlRouterProvider) {
+          $stateProvider.state('root', {url: '/root', template: 'root template'});
+          $stateProvider.state('index', {url: '/index', template: 'index template'});
+          $stateProvider.state('user', {url: '/user', template: 'user template'});
+          $urlRouterProvider.otherwise('/root');
+        })
+    </script>
+  </body>
+</html>

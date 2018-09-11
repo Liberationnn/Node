@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    <button class="btn btn-primary" ui-sref="index">首页</button>
+    <button class="btn btn-primary" ui-sref="user">用户管理</button>
+    <div ui-view></div>
+
+    <script src="../../angular.js"></script>
+    <script src="../../angular-ui-router.js"></script>
+    <script>
+      let app = angular.module('myApp', ['ui.router']);
+      app.controller('myCtrl', function($scope) {
+      });
+      app.config(function($stateProvider, $urlRouterProvider) {
+        $stateProvider.state('index', {url: '/index', template: 'index'});
+        $stateProvider.state('user', {
+          url: '/user',
+          views: {
+            "": {templateUrl: 'user.html'},
+            "menu@user": {templateUrl: 'menu.html'},
+          }
+        });
+        $stateProvider.state('add', {url: '/add', template: 'add'});
+        $stateProvider.state('list', {url: '/list', template: 'list'});
+
+        $urlRouterProvider.otherwise('/index');
+      })
+    </script>
+  </body>
+</html>

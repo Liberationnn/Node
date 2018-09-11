@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    <button class="btn btn-default" ui-sref="root">root</button>
+    <button class="btn btn-default" ui-sref="book">show books</button>
+    <div ui-view></div>
+
+    <script src="../../angular.js"></script>
+    <script src="../../angular-ui-router.js"></script>
+
+    <script>
+      <!-- 1.x版本不支持 -->
+      angular.module('myApp', ['ui.router'])
+        .controller('myCtrl', function($scope) {
+        })
+        .config(function($stateProvider) {
+          $stateProvider.state('root', {url: '/root', template: 'root template'});
+          $stateProvider.state('book', {
+            url: '/book',
+            need_login: true,
+            template: '<ul><li ng-repeat="book in books">{{book.name}}</li></ul>',
+            controller: function($scope, $http) {
+              $http.get('books.json').then((result) => {
+                $scope.books = result.data;
+              });
+            }
+          })
+        })
+        .run(function($rootScope, $state) {
+          $rootScope.$on('$locationChangeStart', function(e, toState, toParams, fromState, fromParams) {
+            if (toState.need_login) {
+              if (!$rootScope.username) {
+                alert('还未登录');
+                e.preventDefault();
+                return;
+              }
+            }
+
+            // console.log(e);
+            // console.log(toState);
+            // console.log(toParams);
+            // console.log(fromState);
+            // console.log(fromParams);
+          });
+        })
+    </script>
+  </body>
+</html>
