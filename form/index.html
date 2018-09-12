@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <script src="jquery.js"></script>
+  </head>
+  <body>
+
+    <form action="" onsubmit="return onSubmit()">
+      <div class="form-group">
+        <label for="username">用户名</label>
+        <input class="form-control" id="username" name="username" type="text">
+      </div>
+
+      <div class="form-group">
+        <label for="age">年龄</label>
+        <input class="form-control" id="age" name="age" type="number">
+      </div>
+
+      <div class="form-group">
+        <label>性别</label>
+        <div class="radio-inline">
+          <label for="man"><input id="man" name="gender" type="radio" value="男" checked>男</label>
+        </div>
+        <div class="radio-inline">
+          <label for="woman"><input id="woman" name="gender" type="radio" value="女">女</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>爱好</label>
+        <div class="radio-inline">
+          <label for="smoke"><input id="smoke" name="hobby" type="checkbox" value="抽烟">抽烟</label>
+          <label for="drink"><input id="drink" name="hobby" type="checkbox" value="喝酒">喝酒</label>
+          <label for="hair"><input id="hair" name="hobby" type="checkbox" value="烫头">烫头</label>
+        </div>
+      </div>
+
+      <div class="form-control">
+        <label>学历</label>
+        <select name="degree">
+          <option value="small">小</option>
+          <option value="middle">中</option>
+          <option value="large">大</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <input class="btn btn-default" type="submit" value="提交">
+      </div>
+    </form>
+
+    <script>
+      // 不全面版
+      function serialize(form) {
+        let data = [];
+        let elements = [...form.elements];
+        elements.forEach((element) => {
+          switch (element.type) {
+            case 'submit':
+              break;
+            case 'radio':
+            case 'checkbox':
+              if (element.checked) {
+                data.push(element.name + '=' + element.value);
+              }
+              break;
+            case 'select-one':
+            case 'select-multiple':
+              let {name, options} = element;
+              if (name) {
+                for (let i = 0; i < options.length; i++) {
+                  if (options[i].selected) {
+                    data.push(element.name + '=' + options[i].value);
+                  }
+                }
+              }
+              break;
+            default:
+              console.dir(element);
+            data.push(element.name + '=' + element.value);
+          }
+        });
+        return data.join('&');
+      }
+
+      function onSubmit() {
+        $.get('/ajax', serialize($('form')[0]), function(data) {
+          console.log(data);
+        });
+        return false;
+      }
+    </script>
+  </body>
+</html>
