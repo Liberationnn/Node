@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap.css">
+  </head>
+  <body ng-controller="myCtrl">
+
+    <label class="" for="word">关键字</label>
+    <input class="form-control" id="word" type="text" ng-model="word">
+    <input class="btn btn-default" type="button" value="搜索" ng-click="search()">
+    <ul class="list-group" jp></ul>
+
+    <script src="angular.js"></script>
+    <script src="jquery.js"></script>
+    <script>
+      let show = {};
+      let app = angular.module('myApp', []);
+      app.controller('myCtrl', function($scope) {
+        $scope.search = () => {
+          let url = 'http://suggestion.baidu.com/su?wd=' + $scope.word + '&cb=show';
+          $.ajax({url: url, dataType: 'jsonp', jsonp: 'show'});
+        };
+      });
+      app.directive('jp', function($http) {
+        return {
+          restrict: 'A',
+          link: function(scope, element, attrs) {
+            show = (result) => {
+              let str = '';
+              result.s.forEach((word) => {
+                str += `<li class="list-group-item">${word}</li>`;
+              });
+              element.html(str);
+            };
+          }
+        };
+      });
+    </script>
+  </body>
+</html>

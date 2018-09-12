@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap.css">
+  </head>
+  <body class="container">
+    <label class="" for="word">关键字</label>
+    <input class="form-control" id="word" type="text">
+    <input class="btn btn-default" type="button" value="搜索">
+    <ul class="list-group"></ul>
+
+    <script>
+      function show(result) {
+        let words = result.s;
+        let ul = document.getElementsByClassName('list-group')[0];
+        let str = '';
+        words.forEach((word) => {
+          str += `<li class="list-group-item">${word}</li>`;
+        });
+        ul.innerHTML = str;
+      }
+
+
+    </script>
+    <script src="http://suggestion.baidu.com/su?wd=a&cb=show"></script>
+  </body>
+</html>
