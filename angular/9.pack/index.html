@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bootstrap.css">
+    <style>
+      .container {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body ng-controller="myCtrl">
+
+    <div class="container">
+      <form name="userform" action="" novalidate="novalidate">
+        <div class="form-group">
+          <label for="password">密码</label>
+          <input class="form-control" id="password" name="password" type="text" ng-model="password">
+        </div>
+        <div class="form-group">
+          <label for="repassword">重复密码</label>
+          <input class="form-control" id="repassword" name="repassword" type="text" ng-model="repassword"
+                 same-password="password">
+        </div>
+        <input class="btn btn-primary" type="submit" value="提交">
+      </form>
+      <pre>{{userform.repassword.$error | json}}</pre>
+      <pre>{{password}}</pre>
+      <pre>{{repassword}}</pre>
+    </div>
+
+    <script src="../angular.js"></script>
+    <script>
+      let app = angular.module('myApp', []);
+      app.controller('myCtrl', function($scope) {
+        $scope.password = '';
+        $scope.repassword = '';
+      });
+      app.directive('samePassword', function() {
+        return {
+          restrict: 'A',
+          require: 'ngModel',
+          link: function(scope, element, attrs, ngModelCtrl) {
+            // 验证器
+            ngModelCtrl.$validators.sameValue = (modelValue, viewValue) => {
+              return modelValue === scope[attrs.samePassword];
+            };
+            scope.$watch('password', (newVal, oldVal) => {
+              ngModelCtrl.$setValidity('sameValue', newVal === scope.repassword);
+            });
+          }
+        };
+      });
+    </script>
+  </body>
+</html>
