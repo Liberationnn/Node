@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+    <script src="./index.js"></script>
+    <script>
+      // 创建xhr对象
+      let xhr = XHR();
+      // 初始化xhr对象
+      xhr.open('POST', '/books');
+      // 设置请求头类型
+      xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+      // 注册状态变化的回调函数
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304)) {
+          console.log(JSON.parse(xhr.responseText));
+          console.log(xhr.getAllResponseHeaders());
+          console.log(xhr.getResponseHeader('Content-Length'));
+        }
+      };
+      // 发送请求
+      xhr.send(JSON.stringify({name: "sr", age: 22}));
+    </script>
+  </body>
+</html>
